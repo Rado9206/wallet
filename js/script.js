@@ -65,7 +65,7 @@ const createNewTransaction = () => {
 		: expensesArea.appendChild(newTransaction) && newTransaction.classList.add('expense')
 
 	moneyArray.push(parseFloat(amountInput.value))
-
+	countMoney(moneyArray)
 	closePanel()
 	ID++
 	clearInputs()
@@ -90,6 +90,11 @@ const checkCategory = transaction => {
 
 const selectCategory = () => {
 	selectedCategory = categorySelect.options[categorySelect.selectedIndex].text
+}
+
+countMoney = money => {
+	const newMoney = money.reduce((x, y) => x + y)
+	availableMoney.textContent = `${newMoney} zł`
 }
 
 addBtn.addEventListener('click', showPanel)
