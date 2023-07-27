@@ -21,7 +21,7 @@ const transactionAmount = document.querySelector('.transaction-amount')
 let root = document.documentElement
 let ID = 0
 let categoryIcon
-let selectCategory
+let selectedCategory
 let moneyArray = [0]
 
 const showPanel = () => {
@@ -35,7 +35,7 @@ const closePanel = () => {
 
 const checkForm = () => {
 	if (nameInput.value !== '' && amountInput.value !== '' && categorySelect.value !== 'none') {
-		console.log('ok')
+		createNewTransaction()
 	} else {
 		alert('Uzupełnij wszystkie pola!')
 	}
@@ -52,13 +52,44 @@ const createNewTransaction = () => {
 	newTransaction.classList.add('transaction')
 	newTransaction.setAttribute('id', ID)
 
+	checkCategory(selectedCategory)
+
 	newTransaction.innerHTML = `
-	<p class="transaction-name">${categoryIcon} ${nameInput.value} </p>
-	<p class="transaction-amount">${amountInput.value} zł 
+	<p class="transaction-name"> ${categoryIcon} ${nameInput.value} </p>
+	<p class="transaction-amount"> ${amountInput.value} zł 
 	<button class="delete" onclick="deleteTransaction(${ID})"><i class="fas fa-times"></i></button> </p>
 	`
 
-	amountInput.value > 0 ? incomeArea.appendChild(newTransaction) && newTransaction.classList.add('income') : expensesArea.appendChild(newTransaction) && newTransaction.classList.add('expense')
+	amountInput.value > 0
+		? incomeArea.appendChild(newTransaction) && newTransaction.classList.add('income')
+		: expensesArea.appendChild(newTransaction) && newTransaction.classList.add('expense')
+
+	moneyArray.push(parseFloat(amountInput.value))
+
+	closePanel()
+	ID++
+	clearInputs()
+}
+
+const checkCategory = transaction => {
+	switch (transaction) {
+		case '[+] Przychód':
+			categoryIcon = '<i class="fas fa-money-bill-wave"></i>'
+			break
+		case '[-] Zakupy':
+			categoryIcon = '<i class="fas fa-cart-arrow-down"></i>'
+			break
+		case '[-] Restauracje':
+			categoryIcon = '<i class="fas fa-hamburger"></i>'
+			break
+		case '[-] Kino':
+			categoryIcon = '<i class="fas fa-film"></i>'
+			break
+	}
+}
+
+const selectCategory = () => {
+	selectedCategory = categorySelect.options[categorySelect.selectedIndex].text
 }
 
 addBtn.addEventListener('click', showPanel)
