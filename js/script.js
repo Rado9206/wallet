@@ -97,6 +97,19 @@ countMoney = money => {
 	availableMoney.textContent = `${newMoney} zł`
 }
 
+const deleteTransaction = id => {
+	const transactioToDeleted = document.getElementById(id)
+	const transactionAmount = parseFloat(transactioToDeleted.childNodes[3].innerText)
+	const indexOfTransaction = moneyArray.indexOf(transactionAmount)
+
+	moneyArray.splice(indexOfTransaction, 1)
+
+	transactioToDeleted.classList.contains('income') ? incomeArea.removeChild(transactioToDeleted) : expensesArea.removeChild(transactioToDeleted)
+
+
+	countMoney(moneyArray)
+}
+
 addBtn.addEventListener('click', showPanel)
 cancelBtn.addEventListener('click', closePanel)
 saveBtn.addEventListener('click', checkForm)
