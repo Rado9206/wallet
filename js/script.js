@@ -11,7 +11,7 @@ const addBtn = document.querySelector('.add-transaction')
 const saveBtn = document.querySelector('.save')
 const cancelBtn = document.querySelector('.cancel')
 const deleteBtn = document.querySelector('.delete')
-const deleteAllBtn = document.querySelector('.delete-all')
+const deleteAllBtns = document.querySelector('.delete-all')
 const lightBtn = document.querySelector('.light')
 const darkBtn = document.querySelector('.dark')
 
@@ -104,12 +104,35 @@ const deleteTransaction = id => {
 
 	moneyArray.splice(indexOfTransaction, 1)
 
-	transactioToDeleted.classList.contains('income') ? incomeArea.removeChild(transactioToDeleted) : expensesArea.removeChild(transactioToDeleted)
-
+	transactioToDeleted.classList.contains('income')
+		? incomeArea.removeChild(transactioToDeleted)
+		: expensesArea.removeChild(transactioToDeleted)
 
 	countMoney(moneyArray)
+}
+
+const deleteAllTransctions = () => {
+	incomeArea.innerHTML = '<h3>Przychód:</h3>'
+	expensesArea.innerHTML = '<h3>Wydatki:</h3>'
+	availableMoney.textContent = `0 zł`
+	moneyArray = [0]
+}
+
+const changeToLightColor = () => {
+	root.style.setProperty('--first-color', '#f9f9f9')
+	root.style.setProperty('--second-color', '#14161f')
+	root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.2)')
+}
+
+const changeToDarkColor = () => {
+	root.style.setProperty('--first-color', '#14161f')
+	root.style.setProperty('--second-color', '#f9f9f9')
+	root.style.setProperty('--border-color', 'rgba(255,255,255, .4)')
 }
 
 addBtn.addEventListener('click', showPanel)
 cancelBtn.addEventListener('click', closePanel)
 saveBtn.addEventListener('click', checkForm)
+deleteAllBtns.addEventListener('click', deleteAllTransctions)
+lightBtn.addEventListener('click', changeToLightColor)
+darkBtn.addEventListener('click' , changeToDarkColor)
